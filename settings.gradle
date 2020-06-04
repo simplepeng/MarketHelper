@@ -1,0 +1,3 @@
+rootProject.name='MarketHelper'
+include ':app'
+include ':markethelper'
