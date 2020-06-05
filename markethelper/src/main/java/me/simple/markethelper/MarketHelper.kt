@@ -78,38 +78,48 @@ object MarketHelper {
         val marketPkg = marketPkgMap[system]
 
         val uri = getUri(packageName, system)
-        return openByPackageName(context, uri, marketPkg)
+        return openByAppPkg(context, packageName, uri, marketPkg)
     }
 
     /**
      * 打开系统商店列表的首位
      */
-    fun openTheFirst(context: Context): Exception? {
+    fun openTheFirst(
+        context: Context,
+        packageName: String = context.packageName
+    ): Exception? {
         val marketPkgList = DeviceHelper.getMarketPkgList(context)
         if (marketPkgList.isNullOrEmpty()) return NullPointerException("Market List Is Empty")
-        return openByPackageName(context, getUri(context.packageName), marketPkgList.first())
+        val uri = getUri(packageName)
+        return openByAppPkg(context, packageName, uri, marketPkgList.first())
     }
 
     /**
      * 隐式意图打开应用商店列表弹框
      */
-    fun openByMatch(context: Context): Exception? {
+    fun openByMatch(
+        context: Context,
+        packageName: String = context.packageName
+    ): Exception? {
         val uri = getUri(context.packageName)
-        return openByPackageName(context, uri)
+        return openByAppPkg(context, packageName, uri)
     }
 
     /**
      * 用包名，商店包名直接打开
      * 对应App的详情页
      */
-    private fun openByPackageName(
+    private fun openByAppPkg(
         context: Context,
-        uri: Uri,
+        packageName: String = context.packageName,
+        uri: Uri = getUri(packageName),
         marketPkg: String? = null
     ): Exception? {
         try {
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                addCategory(Intent.CATEGORY_APP_MARKET)
+//                addCategory("android.intent.category.BROWSABLE")
                 marketPkg?.let { setPackage(it) }
             }
             context.startActivity(intent)
@@ -119,6 +129,23 @@ object MarketHelper {
         }
         return null
     }
+
+    /**
+     *
+     */
+    private fun getUriPrefix(system: String? = null): String = when (system) {
+        SAM_SUNG -> "http://apps.www.samsungapps.com/appquery/appDetail.as?appId=%s"
+        SONY -> "http://m.sonyselect.cn/%s"
+        else -> DEFAULT_URI_PREFIX
+    }
+
+    /**
+     *
+     */
+    fun getUri(
+        packageName: String,
+        system: String? = null
+    ) = Uri.parse(String.format(getUriPrefix(system), packageName))
 
     /**
      * 用应用名称去商店检索对应App
@@ -143,14 +170,15 @@ object MarketHelper {
         return null
     }
 
-    private fun getUriPrefix(system: String? = null): String = when (system) {
-        SAM_SUNG -> "http://www.samsungapps.com/appquery/appDetail.as?appId=%s"
-        SONY -> "http://m.sonyselect.cn/%s"
-        else -> DEFAULT_URI_PREFIX
+    /**
+     * 打开指定的应用商店
+     */
+    fun openMarket(
+        context: Context,
+        packageName: String = context.packageName,
+        marketPkg: String
+    ): Exception? {
+        val uri = Uri.parse(String.format(DEFAULT_URI_PREFIX, packageName))
+        return openByAppPkg(context, packageName, uri, marketPkg)
     }
-
-    fun getUri(
-        packageName: String,
-        system: String? = null
-    ) = Uri.parse(String.format(getUriPrefix(system), packageName))
 }
