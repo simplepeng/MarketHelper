@@ -15,7 +15,7 @@ object DeviceHelper {
         return Build.VERSION.RELEASE
     }
 
-    fun getMarketList(context: Context): List<String> {
+    fun getMarketPkgList(context: Context): List<String> {
         val packageList = mutableListOf<String>()
         val intent = Intent().apply {
             action = "android.intent.action.MAIN"

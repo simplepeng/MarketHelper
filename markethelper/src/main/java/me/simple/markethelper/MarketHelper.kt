@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import java.lang.Exception
+import java.lang.NullPointerException
 import java.util.*
 
 object MarketHelper {
@@ -18,74 +19,138 @@ object MarketHelper {
     const val KU_AN = "com.coolapk.market"//酷安
 
     //key=系统，value=商店包名
-    val marketMap = TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER)
+    val marketPkgMap = TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER)
+
+    const val SAM_SUNG = "samsung"
+    const val SONY = "sony"
+
+    private const val DEFAULT_URI_PREFIX = "market://details?id=%s"
 
     init {
-        marketMap["Google"] = "com.android.vending"//Google Pixel-已测试
-        marketMap["OnePlus"] = "com.oppo.market"//一加-已测试
-        marketMap["Xiaomi"] = "com.xiaomi.market"//小米，红米-已测试
-        marketMap["Meizu"] = "com.meizu.mstore"//魅族-已测试
-        marketMap["OPPO"] = "com.oppo.market"//oppo-已测试
-        marketMap["HUAWEI"] = "com.huawei.appmarket"//华为，荣耀-已测试
-        marketMap["SAMSUNG"] = "com.sec.android.app.samsungapps"//三星
-        marketMap["VIVO"] = "com.bbk.appstore"//vivo
-        marketMap["lenovo"] = "com.lenovo.leos.appstore"//联想
-        marketMap[""] = ""//红魔
-        marketMap[""] = ""//黑鲨
-        marketMap[""] = ""//realme
-        marketMap[""] = ""//海信
+        marketPkgMap["Google"] = "com.android.vending"//Google Pixel-已测试
+        marketPkgMap["OnePlus"] = "com.oppo.market"//一加-已测试
+        marketPkgMap["Xiaomi"] = "com.xiaomi.market"//小米-有问题，红米-已测试
+        marketPkgMap["Meizu"] = "com.meizu.mstore"//魅族-已测试
+        marketPkgMap["OPPO"] = "com.oppo.market"//oppo-已测试
+        marketPkgMap["HUAWEI"] = "com.huawei.appmarket"//华为-已测试，荣耀-已测试
+        marketPkgMap[SAM_SUNG] = "com.sec.android.app.samsungapps"//三星
+        marketPkgMap["vivo"] = "com.bbk.appstore"//vivo-已测试
+        marketPkgMap["lenovo"] = "com.lenovo.leos.appstore"//联想
+        marketPkgMap[""] = ""//红魔
+        marketPkgMap[""] = ""//黑鲨
+        marketPkgMap[""] = ""//realme
+        marketPkgMap[""] = ""//海信
+        marketPkgMap[SONY] = ""//索尼
     }
 
-    fun open(context: Context) {
-
-    }
-
-    fun openBySystem(context: Context) {
-        val system = DeviceHelper.getSystem()
-        val market = marketMap[system]
-        if (!market.isNullOrEmpty()) {
-            openByMatchWithPackageName(context, context.packageName, market)
-        }
-//        else {
-//            openByMatch(context)
-//        }
-    }
-
-    fun openByMatch(context: Context) {
-        openByMatchWithPackageName(context)
-    }
-
-    fun openByMatchWithPackageName(
+    /**
+     * 先直接跳转系统内置的商店，
+     * 无法跳转就查询系统已经安装的商店跳转第一个，已安装商店列表为空或报错
+     * 就直接隐式意图跳转
+     */
+    fun open(
         context: Context,
-        packageName: String = context.packageName,
-        market: String? = null
-    ) {
+        packageName: String = context.packageName
+    ): Exception? {
+        val success = null
+
+        var exp: Exception? = null
+        //先直接跳转系统内置的商店
+        exp = openBySystem(context, packageName) ?: return success
+
+        //exp不为空代表跳转内置商店失败，开始跳转首位
+        exp = openTheFirst(context) ?: return success
+
+        //exp不为空代表跳转首位失败，开始跳转隐式意图选择框
+        exp = openByMatch(context) ?: return success
+
+        return exp
+    }
+
+    /**
+     * 打开系统内置的应用商店
+     */
+    fun openBySystem(
+        context: Context,
+        packageName: String = context.packageName
+    ): Exception? {
+        val system = DeviceHelper.getSystem()
+        val marketPkg = marketPkgMap[system]
+
+        val uri = getUri(packageName, system)
+        return openByPackageName(context, uri, marketPkg)
+    }
+
+    /**
+     * 打开系统商店列表的首位
+     */
+    fun openTheFirst(context: Context): Exception? {
+        val marketPkgList = DeviceHelper.getMarketPkgList(context)
+        if (marketPkgList.isNullOrEmpty()) return NullPointerException("Market List Is Empty")
+        return openByPackageName(context, getUri(context.packageName), marketPkgList.first())
+    }
+
+    /**
+     * 隐式意图打开应用商店列表弹框
+     */
+    fun openByMatch(context: Context): Exception? {
+        val uri = getUri(context.packageName)
+        return openByPackageName(context, uri)
+    }
+
+    /**
+     * 用包名，商店包名直接打开
+     * 对应App的详情页
+     */
+    private fun openByPackageName(
+        context: Context,
+        uri: Uri,
+        marketPkg: String? = null
+    ): Exception? {
         try {
-            val uri = Uri.parse(String.format("market://details?id=%s", packageName))
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                market?.let { setPackage(it) }
+                marketPkg?.let { setPackage(it) }
             }
             context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
+            return e
         }
+        return null
     }
 
-    fun openByMatchWithAppName(
+    /**
+     * 用应用名称去商店检索对应App
+     * 较少用，还要手点一下才能搜索
+     */
+    fun openByAppName(
         context: Context,
         appName: String = DeviceHelper.getAppName(context),
-        market: String? = null
-    ) {
+        marketPkg: String? = null
+    ): Exception? {
         try {
             val uri = Uri.parse(String.format("market://search?q=%s", appName))
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                market?.let { setPackage(it) }
+                marketPkg?.let { setPackage(it) }
             }
             context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
+            return e
         }
+        return null
     }
+
+    private fun getUriPrefix(system: String? = null): String = when (system) {
+        SAM_SUNG -> "http://www.samsungapps.com/appquery/appDetail.as?appId=%s"
+        SONY -> "http://m.sonyselect.cn/%s"
+        else -> DEFAULT_URI_PREFIX
+    }
+
+    fun getUri(
+        packageName: String,
+        system: String? = null
+    ) = Uri.parse(String.format(getUriPrefix(system), packageName))
 }

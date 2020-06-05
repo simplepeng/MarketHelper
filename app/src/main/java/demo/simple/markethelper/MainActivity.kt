@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         tvSystem.text = String.format("系统：%s", DeviceHelper.getSystem())
         tvSystemVersion.text = String.format("系统版本：%s", DeviceHelper.getSystemVersion())
-        val marketList = DeviceHelper.getMarketList(this)
+        val marketList = DeviceHelper.getMarketPkgList(this)
         if (!marketList.isNullOrEmpty()) {
             Log.d(TAG, marketList.toString())
             val builder = StringBuilder()
@@ -27,12 +27,31 @@ class MainActivity : AppCompatActivity() {
             tvMarketList.text = String.format("应用商店：\n%s", builder.toString())
         }
 
+        btnOpen.setOnClickListener {
+            val e = MarketHelper.open(this)
+            setErrorMessage(e)
+        }
+
         btnOpenBySystem.setOnClickListener {
-            MarketHelper.openBySystem(this)
+            val e = MarketHelper.openBySystem(this)
+            setErrorMessage(e)
         }
+
+        btnOpenTheFirst.setOnClickListener {
+            val e = MarketHelper.openTheFirst(this)
+            setErrorMessage(e)
+        }
+
         btnOpenByMatch.setOnClickListener {
-            MarketHelper.openByMatch(this)
+            val e = MarketHelper.openByMatch(this)
+            setErrorMessage(e)
         }
+    }
+
+    private fun setErrorMessage(e: Exception?) {
+        if (e == null) return
+        val message = e.message
+        tvErrorMessage.text = String.format("错误信息：\n%s", message)
     }
 
     companion object {
