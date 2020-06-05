@@ -102,7 +102,7 @@ implementation "me.simple:MarketHelper:1.0.0"
 
 https://www.pgyer.com/markethelper
 
-![qr_code_markethelper](../files/qr_code_markethelper.png)
+![qr_code_markethelper](files/qr_code_markethelper.png)
 
 ## 版本迭代
 
