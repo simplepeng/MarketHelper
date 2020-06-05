@@ -32,9 +32,9 @@ object MarketHelper {
         marketPkgMap["Xiaomi"] = "com.xiaomi.market"//小米-有问题，红米-已测试
         marketPkgMap["Meizu"] = "com.meizu.mstore"//魅族-已测试
         marketPkgMap["OPPO"] = "com.oppo.market"//oppo-已测试
+        marketPkgMap["vivo"] = "com.bbk.appstore"//vivo-已测试
         marketPkgMap["HUAWEI"] = "com.huawei.appmarket"//华为-已测试，荣耀-已测试
         marketPkgMap[SAM_SUNG] = "com.sec.android.app.samsungapps"//三星
-        marketPkgMap["vivo"] = "com.bbk.appstore"//vivo-已测试
         marketPkgMap["lenovo"] = "com.lenovo.leos.appstore"//联想
         marketPkgMap[""] = ""//红魔
         marketPkgMap[""] = ""//黑鲨
@@ -44,9 +44,9 @@ object MarketHelper {
     }
 
     /**
-     * 先直接跳转系统内置的商店，
-     * 无法跳转就查询系统已经安装的商店跳转第一个，已安装商店列表为空或报错
-     * 就直接隐式意图跳转
+     * 1. 先直接跳转系统内置的商店，无法跳转就执行第2步
+     * 2. 查询系统已经安装的商店然后跳转第一个，已安装商店列表为空或报错执行第3步
+     * 3. 调用隐式意图打开应用列表选择框，跳转失败则返回最终的Exception
      */
     fun open(
         context: Context,
@@ -96,6 +96,7 @@ object MarketHelper {
 
     /**
      * 隐式意图打开应用商店列表弹框
+     * 未注册category.APP_MARKET的商店搜索不到
      */
     fun openByMatch(
         context: Context,
@@ -106,7 +107,7 @@ object MarketHelper {
     }
 
     /**
-     * 用包名，商店包名直接打开
+     * 用App包名，商店包名直接打开
      * 对应App的详情页
      */
     private fun openByAppPkg(
@@ -172,6 +173,8 @@ object MarketHelper {
 
     /**
      * 打开指定的应用商店
+     * 可用来跳转第三方的应用商店，比如：应用宝，酷安等
+     * MarketHelper内置了一些第三方商店的包名，在顶部查找
      */
     fun openMarket(
         context: Context,

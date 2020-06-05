@@ -3,6 +3,7 @@ package demo.simple.markethelper
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import me.simple.markethelper.DeviceHelper
 import me.simple.markethelper.MarketHelper
@@ -28,7 +29,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnOpen.setOnClickListener {
-            val e = MarketHelper.open(this)
+            val e: Exception? = MarketHelper.open(this)
+            if (e != null) {
+                Toast.makeText(this, "跳转应用商店失败", Toast.LENGTH_SHORT).show()
+            }
             setErrorMessage(e)
         }
 
