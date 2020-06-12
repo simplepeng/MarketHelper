@@ -3,7 +3,9 @@ package demo.simple.markethelper
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.core.view.children
 import kotlinx.android.synthetic.main.activity_main.*
 import me.simple.markethelper.DeviceHelper
 import me.simple.markethelper.MarketHelper
@@ -50,6 +52,32 @@ class MainActivity : AppCompatActivity() {
             val e = MarketHelper.openByMatch(this)
             setErrorMessage(e)
         }
+
+        for (view in llBtns.children) {
+            view.setOnClickListener { clickView(it) }
+        }
+    }
+
+    private fun clickView(view: View) {
+        var e: Exception? = null
+        when (view.id) {
+            R.id.btn360 -> {
+                e = MarketHelper.openMarket(this, MarketHelper.QIHOO_360)
+            }
+            R.id.btnYYB -> {
+                e = MarketHelper.openMarket(this, MarketHelper.YING_YONG_BAO)
+            }
+            R.id.btnWDJ -> {
+                e = MarketHelper.openMarket(this, MarketHelper.WAN_DOU_JIA)
+            }
+            R.id.btnKA -> {
+                e = MarketHelper.openMarket(this, MarketHelper.KU_AN)
+            }
+            R.id.btnYYH -> {
+                e = MarketHelper.openMarket(this, MarketHelper.YING_YONG_HUI)
+            }
+        }
+        setErrorMessage(e)
     }
 
     private fun setErrorMessage(e: Exception?) {

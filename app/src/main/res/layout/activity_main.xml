@@ -97,5 +97,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvMarketList" />
+
+        <LinearLayout
+            android:id="@+id/llBtns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnOpen">
+
+            <Button
+                android:id="@+id/btn360"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="360" />
+
+            <Button
+                android:id="@+id/btnYYB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="应用宝" />
+
+            <Button
+                android:id="@+id/btnWDJ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="豌豆荚" />
+
+            <Button
+                android:id="@+id/btnKA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="酷安" />
+
+            <Button
+                android:id="@+id/btnYYH"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="应用汇" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

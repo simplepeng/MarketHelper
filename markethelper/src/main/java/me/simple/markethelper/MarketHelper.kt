@@ -182,8 +182,8 @@ object MarketHelper {
      */
     fun openMarket(
             context: Context,
-            packageName: String = context.packageName,
-            marketPkg: String
+            marketPkg: String,
+            packageName: String = context.packageName
     ): Exception? {
         val intent = getDefaultMarketIntent(packageName, marketPkg)
         return startOpen(context, intent)
