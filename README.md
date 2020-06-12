@@ -95,7 +95,8 @@ implementation "me.simple:MarketHelper:1.0.0"
 | HUAWEI，荣耀 |      com.huawei.appmarket       |  已通过  |
 |     vivo     |        com.bbk.appstore         |  已通过  |
 |     三星     | com.sec.android.app.samsungapps |  未测试  |
-|     联想     |    com.lenovo.leos.appstore     |  未测试  |
+|     联想     |    com.lenovo.leos.appstore     |  已通过  |
+|     乐视     |      com.letv.app.appstore      |  未测试  |
 |  待新增...   |                                 |          |
 
 有其他机型手机的小伙伴下载下面的二维码帮忙测试反馈下，谢谢！
