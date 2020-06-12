@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnOpenTheFirst.setOnClickListener {
-            val e = MarketHelper.openTheFirst(this)
+            val e = MarketHelper.openByFirst(this)
             setErrorMessage(e)
         }
 
