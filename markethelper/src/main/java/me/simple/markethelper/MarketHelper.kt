@@ -58,8 +58,8 @@ object MarketHelper {
      * 3. 调用隐式意图打开应用列表选择框，跳转失败则返回最终的Exception
      */
     fun open(
-        context: Context,
-        packageName: String = context.packageName
+            context: Context,
+            packageName: String = context.packageName
     ): Exception? {
         val success = null
 
@@ -80,10 +80,11 @@ object MarketHelper {
      * 打开系统内置的应用商店
      */
     fun openBySystem(
-        context: Context,
-        packageName: String = context.packageName
+            context: Context,
+            packageName: String = context.packageName
     ): Exception? {
         val system = DeviceHelper.getSystem()
+//        val system = SAM_SUNG
         val marketPkg = marketPkgMap[system]
         val intent = getMarketIntent(system, packageName, marketPkg)
         return startOpen(context, intent)
@@ -93,8 +94,8 @@ object MarketHelper {
      * 打开系统商店列表的首位
      */
     fun openByFirst(
-        context: Context,
-        packageName: String = context.packageName
+            context: Context,
+            packageName: String = context.packageName
     ): Exception? {
         val marketPkgList = DeviceHelper.getMarketPkgList(context)
         if (marketPkgList.isNullOrEmpty()) return NullPointerException("Market List Is Empty")
@@ -107,8 +108,8 @@ object MarketHelper {
      * 未注册category.APP_MARKET的商店搜索不到
      */
     fun openByMatch(
-        context: Context,
-        packageName: String = context.packageName
+            context: Context,
+            packageName: String = context.packageName
     ): Exception? {
         val intent = getDefaultMarketIntent(packageName, null)
         return startOpen(context, intent)
@@ -118,8 +119,8 @@ object MarketHelper {
      *
      */
     private fun startOpen(
-        context: Context,
-        intent: Intent
+            context: Context,
+            intent: Intent
     ): Exception? {
         try {
             context.startActivity(intent)
@@ -134,9 +135,9 @@ object MarketHelper {
      *
      */
     private fun getMarketIntent(
-        system: String?,
-        packageName: String,
-        marketPkg: String?
+            system: String?,
+            packageName: String,
+            marketPkg: String?
     ) = when (system) {
         SAM_SUNG -> {
             getSamSungMarketIntent(packageName)
@@ -150,8 +151,8 @@ object MarketHelper {
      * 创建默认的Intent
      */
     private fun getDefaultMarketIntent(
-        packageName: String,
-        marketPkg: String?
+            packageName: String,
+            marketPkg: String?
     ): Intent {
         val uri = Uri.parse(String.format(DEFAULT_URI_PREFIX, packageName))
         return Intent(Intent.ACTION_VIEW, uri).apply {
@@ -164,16 +165,12 @@ object MarketHelper {
      * 创建三星的Intent
      */
     private fun getSamSungMarketIntent(
-        packageName: String
+            packageName: String
     ): Intent {
-        return Intent().apply {
-            setClassName("com.sec.android.app.smsungapps", "com.sec.android.app.smsungapps.Main")
-            data = Uri.parse(
-                String.format(
-                    "http://apps.www.samsungapps.com/appquery/appDetail.as?appId=%s",
-                    packageName
-                )
-            )
+        val uri = Uri.parse(String.format("http://apps.samsung.com/appquery/appDetail.as?appId=%s", packageName))
+        return Intent(Intent.ACTION_VIEW, uri).apply {
+//            setClassName("com.sec.android.app.smsungapps", "com.sec.android.app.smsungapps.Main")
+//            data = Uri.parse(String.format("http://apps.samsung.com/appquery/appDetail.as?appId=%s", packageName))
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }
@@ -184,9 +181,9 @@ object MarketHelper {
      * MarketHelper内置了一些第三方商店的包名，在顶部查找
      */
     fun openMarket(
-        context: Context,
-        packageName: String = context.packageName,
-        marketPkg: String
+            context: Context,
+            packageName: String = context.packageName,
+            marketPkg: String
     ): Exception? {
         val intent = getDefaultMarketIntent(packageName, marketPkg)
         return startOpen(context, intent)
@@ -197,9 +194,9 @@ object MarketHelper {
      * 较少用，还要手点一下才能搜索
      */
     fun openByAppName(
-        context: Context,
-        appName: String = DeviceHelper.getAppName(context),
-        marketPkg: String? = null
+            context: Context,
+            appName: String = DeviceHelper.getAppName(context),
+            marketPkg: String? = null
     ): Exception? {
         try {
             val uri = Uri.parse(String.format("market://search?q=%s", appName))
