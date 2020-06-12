@@ -5,7 +5,7 @@
 ## 依赖
 
 ```groovy
-implementation "me.simple:MarketHelper:1.0.0"
+implementation "me.simple:MarketHelper:1.0.1"
 ```
 
 ## 使用
@@ -37,7 +37,7 @@ implementation "me.simple:MarketHelper:1.0.0"
     /**
      * 打开系统商店列表的首位
      */
-    fun openTheFirst(
+    fun openByFirst(
         context: Context,
         packageName: String = context.packageName
     )
@@ -49,17 +49,6 @@ implementation "me.simple:MarketHelper:1.0.0"
     fun openByMatch(
         context: Context,
         packageName: String = context.packageName
-    )
-
-    /**
-     * 用App包名，商店包名直接打开
-     * 对应App的详情页
-     */
-    private fun openByAppPkg(
-        context: Context,
-        packageName: String = context.packageName,
-        uri: Uri = getUri(packageName),
-        marketPkg: String? = null
     )
 
     /**
@@ -79,25 +68,25 @@ implementation "me.simple:MarketHelper:1.0.0"
      */
     fun openMarket(
         context: Context,
-        packageName: String = context.packageName,
-        marketPkg: String
+     	  marketPkg: String,
+        packageName: String = context.packageName
     )
 ```
 
 ## 测试情况
 
-|     机型     |            商店包名             | 测试情况 |
-| :----------: | :-----------------------------: | :------: |
-| Google Pixel |       com.android.vending       |  已通过  |
-|  一加，OPPO  |         com.oppo.market         |  已通过  |
-|  小米，红米  |        com.xiaomi.market        |  已通过  |
-|    Meizu     |        com.meizu.mstore         |  已通过  |
-| HUAWEI，荣耀 |      com.huawei.appmarket       |  已通过  |
-|     vivo     |        com.bbk.appstore         |  已通过  |
-|     三星     | com.sec.android.app.samsungapps |  未测试  |
-|     联想     |    com.lenovo.leos.appstore     |  已通过  |
-|     乐视     |      com.letv.app.appstore      |  未测试  |
-|  待新增...   |                                 |          |
+|     机型     |            商店包名             |    测试情况     |
+| :----------: | :-----------------------------: | :-------------: |
+| Google Pixel |       com.android.vending       |     已通过      |
+|  一加，OPPO  |         com.oppo.market         |     已通过      |
+|  小米，红米  |        com.xiaomi.market        |     已通过      |
+|    Meizu     |        com.meizu.mstore         |     已通过      |
+| HUAWEI，荣耀 |      com.huawei.appmarket       |     已通过      |
+|     vivo     |        com.bbk.appstore         |     已通过      |
+|     三星     | com.sec.android.app.samsungapps | 特殊处理/已通过 |
+|     联想     |    com.lenovo.leos.appstore     |     已通过      |
+|     乐视     |      com.letv.app.appstore      |     未测试      |
+|  待新增...   |                                 |                 |
 
 有其他机型手机的小伙伴下载下面的二维码帮忙测试反馈下，谢谢！
 

@@ -38,7 +38,7 @@ publish {
     userOrg = 'simplepeng'
     groupId = 'me.simple'
     artifactId = 'MarketHelper'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = '跳转应用商店的帮助类'
     website = 'https://github.com/simplepeng/MarketHelper'
 }
