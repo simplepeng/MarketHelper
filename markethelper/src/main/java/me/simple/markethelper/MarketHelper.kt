@@ -36,7 +36,7 @@ object MarketHelper {
 
     init {
         marketPkgMap["Google"] = "com.android.vending"//Google Pixel-已测试
-        marketPkgMap["OnePlus"] = "com.oppo.market"//一加-已测试
+        marketPkgMap["OnePlus"] = "com.heytap.market"//一加-已测试
         marketPkgMap["Xiaomi"] = "com.xiaomi.market"//小米-有问题，红米-已测试
         marketPkgMap["Meizu"] = "com.meizu.mstore"//魅族-已测试
         marketPkgMap["OPPO"] = "com.oppo.market"//oppo-已测试
