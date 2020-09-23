@@ -12,6 +12,8 @@ import me.simple.markethelper.MarketHelper
 
 class MainActivity : AppCompatActivity() {
 
+    private val mPackageName = "com.tencent.mobileqq"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnOpen.setOnClickListener {
-            val e: Exception? = MarketHelper.open(this)
+            val e: Exception? = MarketHelper.open(this, mPackageName)
             if (e != null) {
                 Toast.makeText(this, "跳转应用商店失败", Toast.LENGTH_SHORT).show()
             }
@@ -39,17 +41,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnOpenBySystem.setOnClickListener {
-            val e = MarketHelper.openBySystem(this)
+            val e = MarketHelper.openBySystem(this, mPackageName)
             setErrorMessage(e)
         }
 
         btnOpenTheFirst.setOnClickListener {
-            val e = MarketHelper.openByFirst(this)
+            val e = MarketHelper.openByFirst(this, mPackageName)
             setErrorMessage(e)
         }
 
         btnOpenByMatch.setOnClickListener {
-            val e = MarketHelper.openByMatch(this)
+            val e = MarketHelper.openByMatch(this, mPackageName)
             setErrorMessage(e)
         }
 
@@ -62,19 +64,19 @@ class MainActivity : AppCompatActivity() {
         var e: Exception? = null
         when (view.id) {
             R.id.btn360 -> {
-                e = MarketHelper.openMarket(this, MarketHelper.QIHOO_360)
+                e = MarketHelper.openMarket(this, MarketHelper.QIHOO_360, mPackageName)
             }
             R.id.btnYYB -> {
-                e = MarketHelper.openMarket(this, MarketHelper.YING_YONG_BAO)
+                e = MarketHelper.openMarket(this, MarketHelper.YING_YONG_BAO, mPackageName)
             }
             R.id.btnWDJ -> {
-                e = MarketHelper.openMarket(this, MarketHelper.WAN_DOU_JIA)
+                e = MarketHelper.openMarket(this, MarketHelper.WAN_DOU_JIA, mPackageName)
             }
             R.id.btnKA -> {
-                e = MarketHelper.openMarket(this, MarketHelper.KU_AN)
+                e = MarketHelper.openMarket(this, MarketHelper.KU_AN, mPackageName)
             }
             R.id.btnYYH -> {
-                e = MarketHelper.openMarket(this, MarketHelper.YING_YONG_HUI)
+                e = MarketHelper.openMarket(this, MarketHelper.YING_YONG_HUI, mPackageName)
             }
         }
         setErrorMessage(e)

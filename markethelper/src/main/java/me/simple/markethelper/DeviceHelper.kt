@@ -15,6 +15,9 @@ object DeviceHelper {
         return Build.VERSION.RELEASE
     }
 
+    /**
+     * 获取注册过APP_MARKET的全部App
+     */
     fun getMarketPkgList(context: Context): List<String> {
         val packageList = mutableListOf<String>()
         val intent = Intent().apply {
