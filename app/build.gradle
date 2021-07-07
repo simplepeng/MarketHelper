@@ -35,6 +35,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation project(path: ':markethelper')
+//    implementation project(path: ':markethelper')
+    implementation 'com.github.simplepeng:MarketHelper:v1.0.2'
 //    implementation "me.simple:MarketHelper:1.0.1"
 }
