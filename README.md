@@ -96,4 +96,6 @@ https://www.pgyer.com/markethelper
 
 ## 版本迭代
 
+* v1.0.2：一加，oppo更换了商店的包名
+* v1.0.1：修复bug
 * v1.0.0：首次上传
