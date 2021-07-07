@@ -3,9 +3,8 @@ package me.simple.markethelper
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import java.lang.Exception
-import java.lang.NullPointerException
 import java.util.*
+import kotlin.NullPointerException
 
 object MarketHelper {
 
@@ -19,7 +18,7 @@ object MarketHelper {
     const val KU_AN = "com.coolapk.market"//酷安
 
     //key=系统，value=商店包名
-    private val marketPkgMap = TreeMap<String, Array<String>>(String.CASE_INSENSITIVE_ORDER)
+    private val marketPkgMap = TreeMap<String, Array<String>?>(String.CASE_INSENSITIVE_ORDER)
 
     private const val SAM_SUNG = "samsung"
     private const val LE_TV = "letv"
@@ -35,21 +34,23 @@ object MarketHelper {
      */
 
     init {
+        val oppoPkgs = arrayOf("com.heytap.market", "com.oppo.market")
+
         marketPkgMap["Google"] = arrayOf("com.android.vending")//Google Pixel-已测试
-        marketPkgMap["OnePlus"] = arrayOf("com.heytap.market")//一加-已测试
+        marketPkgMap["OnePlus"] = oppoPkgs//一加-已测试
         marketPkgMap["Xiaomi"] = arrayOf("com.xiaomi.market")//小米-有问题，红米-已测试
         marketPkgMap["Meizu"] = arrayOf("com.meizu.mstore")//魅族-已测试
-        marketPkgMap["OPPO"] = arrayOf("com.oppo.market")//oppo-已测试
+        marketPkgMap["OPPO"] = oppoPkgs//oppo-已测试
         marketPkgMap["vivo"] = arrayOf("com.bbk.appstore")//vivo-已测试
         marketPkgMap["HUAWEI"] = arrayOf("com.huawei.appmarket")//华为-已测试，荣耀-已测试
         marketPkgMap[SAM_SUNG] = arrayOf("com.sec.android.app.samsungapps")//三星
         marketPkgMap["lenovo"] = arrayOf("com.lenovo.leos.appstore")//联想-已测试
         marketPkgMap[LE_TV] = arrayOf("com.letv.app.appstore")//乐视
-        marketPkgMap[""] = arrayOf()//红魔
-        marketPkgMap[""] = arrayOf()//黑鲨
-        marketPkgMap[""] = arrayOf()//realme
-        marketPkgMap[""] = arrayOf()//海信
-        marketPkgMap[SONY] = arrayOf()//索尼
+//        marketPkgMap[""] = arrayOf()//红魔
+//        marketPkgMap[""] = arrayOf()//黑鲨
+//        marketPkgMap[""] = arrayOf()//realme
+//        marketPkgMap[""] = arrayOf()//海信
+//        marketPkgMap[SONY] = arrayOf()//索尼
     }
 
     /**
@@ -85,10 +86,14 @@ object MarketHelper {
     ): Exception? {
         val system = DeviceHelper.getSystem()
 //        val system = SAM_SUNG
-        val marketPkgArray = marketPkgMap[system]!!
+        val marketPkgArray = marketPkgMap[system]
+
+        if (marketPkgMap == null) {
+            return NullPointerException("marketPkgArray is null")
+        }
 
         var e: Exception? = null
-        for (marketPkg in marketPkgArray) {
+        for (marketPkg in marketPkgArray!!) {
             val intent = getMarketIntent(system, packageName, marketPkg)
             e = startOpen(context, intent)
             if (e == null) break

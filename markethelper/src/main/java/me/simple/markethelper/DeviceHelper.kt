@@ -7,6 +7,9 @@ import android.os.Build
 
 object DeviceHelper {
 
+    /**
+     * 获取手机厂商
+     */
     fun getSystem(): String {
         return Build.MANUFACTURER
     }
