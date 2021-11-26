@@ -79,21 +79,22 @@ if (e != null) {
 
 ## 测试情况
 
-|     机型     |            商店包名             |    测试情况     |
-| :----------: | :-----------------------------: | :-------------: |
-| Google Pixel |       com.android.vending       |     已通过      |
-|  一加，OPPO  |         com.oppo.market         |     已通过      |
-|  小米，红米  |        com.xiaomi.market        |     已通过      |
-|    Meizu     |        com.meizu.mstore         |     已通过      |
-| HUAWEI，荣耀 |      com.huawei.appmarket       |     已通过      |
-|     vivo     |        com.bbk.appstore         |     已通过      |
-|     三星     | com.sec.android.app.samsungapps | 特殊处理/已通过 |
-|     联想     |    com.lenovo.leos.appstore     |     已通过      |
-|     乐视     |      com.letv.app.appstore      |     未测试      |
-|  待新增...   |                                 |                 |
+|        机型        |            商店包名             |    测试情况     |
+| :----------------: | :-----------------------------: | :-------------: |
+|    Google Pixel    |       com.android.vending       |     已通过      |
+| 一加，OPPO，realme |         com.oppo.market         |     已通过      |
+|     小米，红米     |        com.xiaomi.market        |     已通过      |
+|       Meizu        |        com.meizu.mstore         |     已通过      |
+|    HUAWEI，荣耀    |      com.huawei.appmarket       |     已通过      |
+|        vivo        |        com.bbk.appstore         |     已通过      |
+|        三星        | com.sec.android.app.samsungapps | 特殊处理/已通过 |
+|        联想        |    com.lenovo.leos.appstore     |     已通过      |
+|        乐视        |      com.letv.app.appstore      |     未测试      |
+|     待新增...      |                                 |                 |
 
 ## 版本迭代
 
+* v1.0.3：修复bug，增加realme支持
 * v1.0.2：一加，oppo更换了商店的包名
 * v1.0.1：修复bug
 * v1.0.0：首次上传
