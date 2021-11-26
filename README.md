@@ -5,18 +5,11 @@
 ## 依赖
 
 ```groovy
-allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
-}
+maven { url 'https://jitpack.io' }
 ```
 
 ```groovy
-dependencies {
-        implementation 'com.github.simplepeng:MarketHelper:v1.0.2'
-}
+implementation 'com.github.simplepeng:MarketHelper:v1.0.3'
 ```
 
 ## 使用
