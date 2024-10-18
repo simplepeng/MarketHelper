@@ -45,7 +45,8 @@ object MarketHelper {
         marketPkgMap["Xiaomi"] = arrayOf("com.xiaomi.market")//小米-有问题，红米-已测试
         marketPkgMap["Meizu"] = arrayOf("com.meizu.mstore")//魅族-已测试
         marketPkgMap["vivo"] = arrayOf("com.bbk.appstore")//vivo-已测试
-        marketPkgMap["HUAWEI"] = arrayOf("com.huawei.appmarket")//华为-已测试，荣耀-已测试
+        marketPkgMap["HUAWEI"] = arrayOf("com.huawei.appmarket")//华为-已测试
+        marketPkgMap["HONOR"] = arrayOf("com.hihonor.appmarket")//荣耀-已测试
         marketPkgMap[SAM_SUNG] = arrayOf("com.sec.android.app.samsungapps")//三星
         marketPkgMap["lenovo"] = arrayOf("com.lenovo.leos.appstore")//联想-已测试
         marketPkgMap[LE_TV] = arrayOf("com.letv.app.appstore")//乐视
